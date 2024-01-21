@@ -1,4 +1,5 @@
 ;;; sbcl --non-interactive
+(require :uiop)
 (uiop:run-program (list "curl" "-O" "https://beta.quicklisp.org/quicklisp.lisp"))
 (load "quicklisp.lisp")
 (quicklisp-quickstart:install)
