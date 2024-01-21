@@ -1,4 +1,4 @@
-name: Build Scheme Program
+name: Compile Common Lisp Program Cross-Platform
 
 on:
   push:
@@ -24,35 +24,20 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
-        sudo apt install chicken-bin -y
+        sudo apt install sbcl -y
 
     - name: Install dependencies on macOS
       if: matrix.os == 'macos-latest'
-      run: brew install chicken
+      run: brew install sbcl
 
     - name: Install dependencies on Windows
       if: matrix.os == 'windows-2019'
-      run: choco install chicken
+      run: choco install sbcl
         
-    - name: Compile Scheme Program with Chicken Scheme on non-Windows
-      if: matrix.os != 'windows-2019'
-      run: csc -static main.scm
+    - name: Compile Common Lisp program with SBCL #Chicken Scheme on non-Windows
+      #if: matrix.os != 'windows-2019'
+      run: sbcl --non-interactive --eval "(require :asdf)" --eval "(asdf:compile-system :example-system)"
 
-    - name: Compile Scheme Program with Chicken Scheme on Windows
-      if: matrix.os == 'windows-2019'
-      run: C:\tools\chicken\bin\csc -static main.scm 
-
-    - name: Upload executable for Windows
-      if: matrix.os == 'windows-2019'
-      uses: actions/upload-artifact@v3
-      with:
-        name: compiled-program-${{ matrix.os }}
-        path: main.exe
-    
-    - name: Upload executable for non-Windows
-      if: matrix.os != 'windows-2019'
-      uses: actions/upload-artifact@v3
-      with:
-        name: compiled-program-${{ matrix.os }}
-        path: main
- 
+   # - name: Compile Scheme Program with Chicken Scheme on Windows
+   #   if: matrix.os == 'windows-2019'
+   #   run: C:\tools\chicken\bin\csc -static main.scm 
