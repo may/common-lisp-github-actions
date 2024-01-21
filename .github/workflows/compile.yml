@@ -19,33 +19,30 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install Common Lisp, and download Quicklisp on Ubuntu
+    - name: Install Common Lisp on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
         sudo apt install sbcl -y
-        curl -O https://beta.quicklisp.org/quicklisp.lisp
 
-    - name: Install Common Lisp, and download Quicklisp on macOS
+    - name: Install Common Lisp on macOS
       if: matrix.os == 'macos-latest'
       run: |
         brew install sbcl
-        curl -O https://beta.quicklisp.org/quicklisp.lisp
 
-    - name: Install Common Lisp, and download Quicklisp on Windows
+    - name: Install Common Lisp on Windows
       if: matrix.os == 'windows-2019'
       run: |
         choco install sbcl
-        curl -O https://beta.quicklisp.org/quicklisp.lisp
 
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Compile Common Lisp program with SBCL
+    - name: Install Quicklisp, compile Common Lisp program with SBCL
       #if: matrix.os != 'windows-2019'
       #run: sbcl --non-interactive --eval '(require :asdf)' --eval '(push \#p\"${{ github.workspace }}\" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
       run: sbcl --non-interactive --load configure-and-compile.lisp
 
    # - name: Compile Scheme Program with Chicken Scheme on Windows
    #   if: matrix.os == 'windows-2019'
-   #   run: C:\tools\chicken\bin\csc -static main.scm 
+   #   run: C:\tools\chicken\bin\csc -static main.scm

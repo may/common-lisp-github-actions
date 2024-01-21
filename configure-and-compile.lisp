@@ -1,4 +1,5 @@
 ;;; sbcl --non-interactive
+(uiop:run-program (list "curl" "-O" "https://beta.quicklisp.org/quicklisp.lisp"))
 (load "quicklisp.lisp")
 (quicklisp-quickstart:install)
 ; --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
