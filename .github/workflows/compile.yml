@@ -38,7 +38,7 @@ jobs:
         lisp: [sbcl]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Common Lisp on Ubuntu
       if: matrix.os == 'ubuntu-latest'
@@ -57,7 +57,7 @@ jobs:
         choco install sbcl
 
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install Quicklisp, compiles Common Lisp program with ${{ matrix.lisp }}
       if: matrix.lisp == 'sbcl'

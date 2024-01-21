@@ -18,8 +18,14 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-2019]
 
     steps:
+    - uses: actions/checkout@v4
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Prep the envionments 
       uses: ./.github/workflows/compile.yml # heavy lifting here
+      # If this doesn't work, I'll just use the script
 
     - name: Create release executable with Common Lisp
       if: matrix.os != 'windows-2019'
