@@ -34,11 +34,27 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
         lisp: [sbcl] # TODO ecl, clisp, abcl, clasp?
-    env:
+     env:
+       # What is the system we should compile?
+       # Please provide an unquoted string not a symbol.
+       cl-system: example-system
+     env:
        # Should we release executables in addition to compiling? (true/false)
        # This needs to live here, rather than in the helper script, so we can
        # conditionally execute the steps to upload the finished executables.
        cl-release: true
+     env:
+       # What do you want your executable to be called, without any file extensions?
+       # For example, if you put 'main' in here, you'll get:
+       #  'main' for GNU/Linux and MacOS and
+       #  'main.exe' for Windows
+       # This is the name your users will see, although obviously you can rename
+       # the file later if you choose..
+       cl-exe-basename: main
+     env:
+       # What is the 'main' entry function of your program, that should be called
+       # upon launch of your executable?
+       cl-exe-entry-function: example-system:hello
 
     steps:
     - uses: actions/checkout@v4
@@ -71,11 +87,11 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program-${{ matrix.os }}
-        path: main.exe
+        path: format('{0}.exe', env.cl-exe-basename) # ex. main.exe
 
     - name: Upload executable for non-Windows
       if: matrix.os != 'windows-2019' && env.cl-release == 'true'
       uses: actions/upload-artifact@v3
       with:
-        name: compiled-program-${{ matrix.os }}
-        path: main
+        name: compiled-program-${{ matrix.os }} # ex. main
+        path: env.cl-exe-basename

@@ -16,10 +16,26 @@
 ;; See the License for the specific language governing permissions and
 ;; limitations under the License.
 
+;; Note: You should not need to edit this program (unless something breaks);
+;; rather, please edit the values in compile-and-release.yml.
+;; If you don't have that file, this one won't do you much good.
+
+
+
 ;;; Prep envionment.
+(require :uiop)
+
+;; See compile-and-release.yml for user-friendly descriptions of these values.
+(defparameter *cl-system* (read-from-string (uiop:getenv "cl-system")))
+(defparameter *cl-release* (uiop:getenv "cl-release"))
+(defparameter *cl-exe-basename* (uiop:getenv "cl-exe-basename"))
+;; Convert the function specified in the .yml config into a function object.
+(defparameter *cl-exe-entry-function*
+  ;; Will this work w/ the pkging system?
+  (symbol-function (find-symbol (string-upcase (uiop:getenv "cl-exe-entry-function")))))
+
 ;; Download & install Quicklisp in the script rather than the GitHub Actions
 ;; because it's easier; the downloaded file is already in our working directory.
-(require :uiop)
 (uiop:run-program (list "curl" "-O" "https://beta.quicklisp.org/quicklisp.lisp"))
 (load "quicklisp.lisp")
 (quicklisp-quickstart:install)
@@ -29,19 +45,17 @@
 ;; ASDF needs directories to have trailing paths.
 (push (concatenate 'string (uiop:getenv "GITHUB_WORKSPACE") "/") asdf:*central-registry*)
 (print asdf:*central-registry*)
-(asdf:compile-system :example-system) ; todo 
+(asdf:compile-system *cl-system*)
 
 ;;; Optionally create release executables.
 ;;; We already have the envionment setup, so just keep going.
-(if (uiop:getenv "cl-release")
+(if *cl-release*
     (progn
-      (asdf:load-system :example-system) ; todo 
-      (setq uiop:*image-entry-point* #'example-system:hello) ; todo
+      (asdf:load-system *cl-system*)
+      (setq uiop:*image-entry-point* *cl-exe-entry-function*)
       (uiop:dump-image
        (if (uiop:os-windows-p)
-           "hello.exe" ; todo (concatenate 'string *TODOexename* ".exe")
-           "hello") ; todo
+           (concatenate 'string *cl-exe-basename* ".exe")
+           *cl-exe-basename*)
        :executable t))
-    (print "Not creating executables; configure this in compile-and-release.yaml, line ~40: by setting cl-release to true"))
-
-;; TODO adjust line number as needed.
+    (print "Not creating executables; configure this in compile-and-release.yml, line ~45: by setting cl-release to true"))
