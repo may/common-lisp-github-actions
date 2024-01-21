@@ -19,35 +19,32 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install dependencies on Ubuntu
+    - name: Install Common Lisp, and download Quicklisp on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
         sudo apt install sbcl -y
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-        
-    - name: Install dependencies on macOS
+
+    - name: Install Common Lisp, and download Quicklisp on macOS
       if: matrix.os == 'macos-latest'
       run: |
         brew install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-        
-    - name: Install dependencies on Windows
+
+    - name: Install Common Lisp, and download Quicklisp on Windows
       if: matrix.os == 'windows-2019'
-      run: | 
+      run: |
         choco install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-       
+
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Compile Common Lisp program with SBCL #Chicken Scheme on non-Windows
+    - name: Compile Common Lisp program with SBCL
       #if: matrix.os != 'windows-2019'
       #run: sbcl --non-interactive --eval '(require :asdf)' --eval '(push \#p\"${{ github.workspace }}\" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
-      run: sbcl --non-interactive --eval '(require :asdf)' --eval '(print "${{ github.workspace }}/" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
+      run: sbcl --non-interactive --load configure-and-compile.lisp
 
    # - name: Compile Scheme Program with Chicken Scheme on Windows
    #   if: matrix.os == 'windows-2019'
