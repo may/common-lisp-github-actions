@@ -64,9 +64,9 @@ jobs:
       #run: sbcl --non-interactive --eval '(require :asdf)' --eval '(push \#p\"${{ github.workspace }}\" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
       run: sbcl --non-interactive --load configure-and-compile.lisp
 
-   - name: Install Quicklisp, compiles Common Lisp program with ${{ matrix.lisp }}
-     if: matrix.lisp == 'sbcl'
-     run: sbcl --non-interactive --load configure-and-compile.lisp
+    - name: Install Quicklisp, compiles Common Lisp program with ${{ matrix.lisp }}
+      if: matrix.lisp == 'sbcl'
+      run: sbcl --non-interactive --load configure-and-compile.lisp
 
 # - name: Compile Scheme Program with Chicken Scheme on Windows
    #   if: matrix.os == 'windows-2019'
