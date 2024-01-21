@@ -29,13 +29,17 @@ on:
 
 jobs:
   build:
-    # name: Compile Common Lisp Program Cross-Platform
     name: Compile using ${{ matrix.lisp }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }} # will run all lisps on all OS
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
-        lisp: [sbcl]
+        lisp: [sbcl] # TODO ecl, clisp, abcl, clasp?
+     env:
+       # Should we release executables in addition to compiling? (true/false)
+       # This needs to live here, rather than in the helper script, so we can
+       # conditionally execute the steps to upload the finished executables.
+       cl-release: true
 
     steps:
     - uses: actions/checkout@v4
@@ -43,7 +47,7 @@ jobs:
     - name: Install Common Lisp on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        sudo apt update
+        sudo apt update # important
         sudo apt install sbcl -y
 
     - name: Install Common Lisp on macOS
@@ -61,4 +65,19 @@ jobs:
 
     - name: Install Quicklisp, compiles Common Lisp program with ${{ matrix.lisp }}
       if: matrix.lisp == 'sbcl'
-      run: sbcl --non-interactive --load configure-and-compile.lisp
+      run: sbcl --non-interactive --load configure-and-compile-and-release.lisp
+
+    - name: Upload executable for Windows
+      if: matrix.os == 'windows-2019' && cl-release == true
+      uses: actions/upload-artifact@v3
+      with:
+        name: compiled-program-${{ matrix.os }}
+        path: main.exe
+
+    - name: Upload executable for non-Windows
+      if: matrix.os != 'windows-2019' && cl-release == true
+      uses: actions/upload-artifact@v3
+      with:
+        name: compiled-program-${{ matrix.os }}
+        path: main
+ 
