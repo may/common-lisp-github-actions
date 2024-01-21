@@ -34,27 +34,27 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
         lisp: [sbcl] # TODO ecl, clisp, abcl, clasp?
-     env:
-       # What is the system we should compile?
-       # Please provide an unquoted string not a symbol.
-       cl-system: example-system
-     env:
-       # Should we release executables in addition to compiling? (true/false)
-       # This needs to live here, rather than in the helper script, so we can
-       # conditionally execute the steps to upload the finished executables.
-       cl-release: true
-     env:
-       # What do you want your executable to be called, without any file extensions?
-       # For example, if you put 'main' in here, you'll get:
-       #  'main' for GNU/Linux and MacOS and
-       #  'main.exe' for Windows
-       # This is the name your users will see, although obviously you can rename
-       # the file later if you choose..
-       cl-exe-basename: main
-     env:
-       # What is the 'main' entry function of your program, that should be called
-       # upon launch of your executable?
-       cl-exe-entry-function: example-system:hello
+    env:
+      # What is the system we should compile?
+      # Please provide an unquoted string not a symbol.
+      cl-system: example-system
+     
+      # Should we release executables in addition to compiling? (true/false)
+      # This needs to live here, rather than in the helper script, so we can
+      # conditionally execute the steps to upload the finished executables.
+      cl-release: true
+      
+      # What do you want your executable to be called, without any file extensions?
+      # For example, if you put 'main' in here, you'll get:
+      #  'main' for GNU/Linux and MacOS and
+      #  'main.exe' for Windows
+      # This is the name your users will see, although obviously you can rename
+      # the file later if you choose..
+      cl-exe-basename: main
+      
+      # What is the 'main' entry function of your program, that should be called
+      # upon launch of your executable?
+      cl-exe-entry-function: example-system:hello
 
     steps:
     - uses: actions/checkout@v4
