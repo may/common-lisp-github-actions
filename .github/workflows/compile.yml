@@ -26,21 +26,21 @@ jobs:
         sudo apt update
         sudo apt install sbcl -y
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "~/quicklisp")' --eval '(ql:add-to-init-file)' --quit
+        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "$HOME/quicklisp")' --eval '(ql:add-to-init-file)' --quit
 
     - name: Install dependencies on macOS
       if: matrix.os == 'macos-latest'
       run: |
         brew install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "~/quicklisp")' --eval '(ql:add-to-init-file)' --quit
+        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "$HOME/quicklisp")' --eval '(ql:add-to-init-file)' --quit
 
     - name: Install dependencies on Windows
       if: matrix.os == 'windows-2019'
       run: | 
         choco install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
-        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "~/quicklisp")' --eval '(ql:add-to-init-file)' --quit
+        sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install :path "$HOME/quicklisp")' --eval '(ql:add-to-init-file)' --quit
 
     - name: Checkout repository
       uses: actions/checkout@v3
