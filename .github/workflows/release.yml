@@ -1,5 +1,5 @@
-# TODO.
-name: Build Scheme Program
+name: Build Common Lisp program for cross-platform release
+#TODO
 
 on:
   push:
