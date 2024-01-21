@@ -25,7 +25,7 @@ jobs:
         sudo apt install sbcl -y
         curl -O https://beta.quicklisp.org/quicklisp.lisp
         sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-        sbcl --eval "(push #p"${{ github.workspace }}" asdf:*central-registry*)" --quit
+        sbcl --eval '(push #p"${{ github.workspace }}" asdf:*central-registry*)' --quit
         
     - name: Install dependencies on macOS
       if: matrix.os == 'macos-latest'
@@ -33,7 +33,7 @@ jobs:
         brew install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
         sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-        sbcl --eval "(push #p"${{ github.workspace }}" asdf:*central-registry*)" --quit
+        sbcl --eval '(push #p"${{ github.workspace }}" asdf:*central-registry*)' --quit
         
     - name: Install dependencies on Windows
       if: matrix.os == 'windows-2019'
@@ -41,7 +41,7 @@ jobs:
         choco install sbcl
         curl -O https://beta.quicklisp.org/quicklisp.lisp
         sbcl --no-sysinit --no-userinit --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (ql:add-to-init-file))' --quit
-        sbcl --eval "(push #p"${{ github.workspace }}" asdf:*central-registry*)" --quit
+        sbcl --eval '(push #p"${{ github.workspace }}" asdf:*central-registry*)' --quit
         
     - name: Checkout repository
       uses: actions/checkout@v3
