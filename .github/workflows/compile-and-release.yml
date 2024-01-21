@@ -1,4 +1,4 @@
-name: Compile Common Lisp
+name: Compile Common Lisp program
 
 ## Compile Common Lisp inside GitHub Actions in a platform-independent way.
 ## This script sets up the Common Lisp envionments, then hands it off to the

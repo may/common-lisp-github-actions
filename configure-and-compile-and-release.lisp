@@ -35,7 +35,7 @@
 ;;; We already have the envionment setup, so just keep going.
 (if (uiop:getenv "cl-release")
     (progn
-      (setq uiop:*image-entry-point* #'hello)
+      (setq uiop:*image-entry-point* #'example-system:hello)
       (uiop:dump-image
        (if (uiop:os-windows-p)
            "hello.exe"
