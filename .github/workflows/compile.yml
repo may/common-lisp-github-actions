@@ -1,5 +1,3 @@
-name: Compile Common Lisp Program Cross-Platform
-
 on:
   push:
     branches: [ main ]
@@ -11,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Compile Scheme Program
+    name: Compile Common Lisp Program Cross-Platform
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
