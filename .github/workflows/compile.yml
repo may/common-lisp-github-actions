@@ -46,7 +46,7 @@ jobs:
 
     - name: Compile Common Lisp program with SBCL #Chicken Scheme on non-Windows
       #if: matrix.os != 'windows-2019'
-      run: sbcl --non-interactive --eval '(require :asdf)' --eval '(push #p\"${{ github.workspace }}\" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
+      run: sbcl --non-interactive --eval '(require :asdf)' --eval '(push \#p\"${{ github.workspace }}\" asdf:*central-registry*)' --eval "(asdf:compile-system :example-system)"
 
    # - name: Compile Scheme Program with Chicken Scheme on Windows
    #   if: matrix.os == 'windows-2019'
