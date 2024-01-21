@@ -7,5 +7,4 @@
 ;(push #p"${{ github.workspace }}" asdf:*central-registry*)
 (push (uiop:getenv "GITHUB_WORKSPACE") asdf:*central-registry*)
 (print asdf:*central-registry*)
-(break "for debugging")
 (asdf:compile-system :example-system)
