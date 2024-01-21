@@ -29,17 +29,18 @@
 ;; ASDF needs directories to have trailing paths.
 (push (concatenate 'string (uiop:getenv "GITHUB_WORKSPACE") "/") asdf:*central-registry*)
 (print asdf:*central-registry*)
-(asdf:compile-system :example-system)
+(asdf:compile-system :example-system) ; todo 
 
 ;;; Optionally create release executables.
 ;;; We already have the envionment setup, so just keep going.
 (if (uiop:getenv "cl-release")
     (progn
-      (setq uiop:*image-entry-point* #'example-system:hello)
+      (asdf:load-system :example-system) ; todo 
+      (setq uiop:*image-entry-point* #'example-system:hello) ; todo
       (uiop:dump-image
        (if (uiop:os-windows-p)
-           "hello.exe"
-           "hello")
+           "hello.exe" ; todo (concatenate 'string *TODOexename* ".exe")
+           "hello") ; todo
        :executable t))
     (print "Not creating executables; configure this in compile-and-release.yaml, line ~40: by setting cl-release to true"))
 
