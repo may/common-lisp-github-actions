@@ -17,7 +17,6 @@ name: Compile Common Lisp
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 
-
 on:
   push:
     branches: [ main ]
@@ -35,7 +34,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
         lisp: [sbcl] # TODO ecl, clisp, abcl, clasp?
-     env:
+    env:
        # Should we release executables in addition to compiling? (true/false)
        # This needs to live here, rather than in the helper script, so we can
        # conditionally execute the steps to upload the finished executables.
