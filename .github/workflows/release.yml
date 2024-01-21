@@ -11,16 +11,15 @@ on:
 jobs:
   release:
     name: Release Common Lisp program cross-platform
-    uses: ./.github/workflows/compile.yml # heavy lifting here
+    #uses: ./.github/workflows/compile.yml # heavy lifting here
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
 
-
     steps:
-# should be done in compile.yml, fingers crossed
-#    - uses: actions/checkout@v3
+    - name: Prep the envionments 
+      uses: ./.github/workflows/compile.yml # heavy lifting here
 
     - name: Create release executable with Common Lisp
       if: matrix.os != 'windows-2019'
