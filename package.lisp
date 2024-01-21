@@ -1,4 +1,5 @@
 ;;;; package.lisp
 
 (defpackage #:example-system
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:hello))
