@@ -91,7 +91,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program-${{ matrix.os }}
-        path: format('{0}.exe', ${{ env.cl-exe-basename }}) # ex. main.exe
+        path: ${{ format('{0}.exe', env.cl-exe-basename) }} # ex. main.exe
 
     - name: Upload executable for non-Windows
       if: matrix.os != 'windows-2019' && env.cl-release == 'true'
