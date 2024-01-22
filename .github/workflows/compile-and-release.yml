@@ -29,6 +29,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+#todo switch to windows latest
+
 jobs:
   build:
     name: Compile using ${{ matrix.lisp }} on ${{ matrix.os }}
@@ -36,7 +38,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-2019]
-        lisp: [sbcl] # TODO ecl, clisp, abcl, clasp?
+        # Clasp would be nice, but no built-in packaging for it.
+        lisp: [sbcl, ecl, clisp, abcl]
+        exclude:
+        - os: windows-2019
+          lisp: ecl
+        - os: windows-2019
+          lisp: abcl
+        - os: windows-2019
     env:
       # What is the system we should compile?
       # Please provide an unquoted string not a symbol.
