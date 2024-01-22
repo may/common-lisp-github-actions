@@ -41,12 +41,12 @@ jobs:
       # What is the system we should compile?
       # Please provide an unquoted string not a symbol.
       cl-system: example-system
-     
+
       # Should we release executables in addition to compiling? (true/false)
       # This needs to live here, rather than in the helper script, so we can
       # conditionally execute the steps to upload the finished executables.
       cl-release: true
-      
+
       # What do you want your executable to be called, without any file extensions?
       # For example, if you put 'main' in here, you'll get:
       #  'main' for GNU/Linux and MacOS and
@@ -54,10 +54,11 @@ jobs:
       # This is the name your users will see, although obviously you can rename
       # the file later if you choose..
       cl-exe-basename: main
-      
+
       # What is the 'main' entry function of your program, that should be called
       # upon launch of your executable?
-      cl-exe-entry-function: example-system:hello
+      # Please just the function name, no need to provide the package name here.
+      cl-exe-entry-function: hello
 
     steps:
     - uses: actions/checkout@v4
