@@ -51,8 +51,11 @@
       (asdf:load-system *cl-system*)
       (setq uiop:*image-entry-point*
             ;; Convert the function specified in the .yml config into a function object.
-            (symbol-function (find-symbol (string-upcase
-                                           (uiop:getenv "cl-exe-entry-function")))))
+            (read-from-string
+             (concatenate 'string
+                          (uiop:getenv "cl-system")
+                          ":"
+                          (uiop:getenv "cl-exe-entry-function"))))
       (uiop:dump-image
        (if (uiop:os-windows-p)
            (concatenate 'string *cl-exe-basename* ".exe")
