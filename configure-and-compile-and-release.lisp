@@ -1,7 +1,10 @@
 ;;;; In GitHub actions, setup the Common Lisp envionment in a platform-independent
 ;;;; way. After that, compile the defined program, and optionally create executables
 ;;;; for release.
+
 ;;; sbcl --non-interactive
+;; Created: 2024-01-20
+;; Revised: 2024-01-21
 
 ;; Copyright 2024 Nicholas E. May
 ;; Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +23,6 @@
 ;; rather, please edit the values in compile-and-release.yml.
 ;; If you don't have that file, this one won't do you much good.
 
-
-
 ;;; Prep envionment.
 (require :uiop)
 
@@ -29,10 +30,6 @@
 (defparameter *cl-system* (read-from-string (uiop:getenv "cl-system")))
 (defparameter *cl-release* (uiop:getenv "cl-release"))
 (defparameter *cl-exe-basename* (uiop:getenv "cl-exe-basename"))
-;; Convert the function specified in the .yml config into a function object.
-(defparameter *cl-exe-entry-function*
-  ;; Will this work w/ the pkging system?
-  (symbol-function (find-symbol (string-upcase (uiop:getenv "cl-exe-entry-function")))))
 
 ;; Download & install Quicklisp in the script rather than the GitHub Actions
 ;; because it's easier; the downloaded file is already in our working directory.
@@ -52,7 +49,10 @@
 (if *cl-release*
     (progn
       (asdf:load-system *cl-system*)
-      (setq uiop:*image-entry-point* *cl-exe-entry-function*)
+      (setq uiop:*image-entry-point*
+            ;; Convert the function specified in the .yml config into a function object.
+            (symbol-function (find-symbol (string-upcase
+                                           (uiop:getenv "cl-exe-entry-function")))))
       (uiop:dump-image
        (if (uiop:os-windows-p)
            (concatenate 'string *cl-exe-basename* ".exe")

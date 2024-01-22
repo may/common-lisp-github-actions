@@ -4,6 +4,9 @@ name: Compile Common Lisp program
 ## This script sets up the Common Lisp envionments, then hands it off to the
 ## ../../configure-and-compile.lisp
 
+## Created: 2024-01-20
+## Revised: 2024-01-21
+
 ## Copyright 2024 Nicholas E. May
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
