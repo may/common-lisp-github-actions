@@ -41,7 +41,6 @@
 ;; Tell ASDF about the project we're trying to compile.
 ;; ASDF needs directories to have trailing paths.
 (push (concatenate 'string (uiop:getenv "GITHUB_WORKSPACE") "/") asdf:*central-registry*)
-(print asdf:*central-registry*)
 (asdf:compile-system *cl-system*)
 
 ;;; Optionally create release executables.
@@ -61,4 +60,4 @@
            (concatenate 'string *cl-exe-basename* ".exe")
            *cl-exe-basename*)
        :executable t))
-    (print "Not creating executables; configure this in compile-and-release.yml, line ~45: by setting cl-release to true"))
+    (print "Not creating executables; configure this in compile-and-release.yml, line ~54: by setting cl-release to true"))
