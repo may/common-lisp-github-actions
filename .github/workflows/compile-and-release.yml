@@ -39,9 +39,9 @@ jobs:
         # Clasp would be nice, but no built-in packaging for it.
         lisp: [sbcl, ecl, clisp, abcl]
         exclude:
-        - os: windows-2019
+        - os: windows-latest
           lisp: ecl # no easy install
-        - os: windows-2019
+        - os: windows-latest
           lisp: abcl # no easy install
     env:
       # What is the system we should compile?
@@ -81,7 +81,7 @@ jobs:
         brew install sbcl
 
     - name: Install Common Lisp on Windows
-      if: matrix.os == 'windows-2019'
+      if: matrix.os == 'windows-latest'
       run: |
         choco install sbcl
 
@@ -93,14 +93,14 @@ jobs:
       run: sbcl --non-interactive --load configure-and-compile-and-release.lisp
 
     - name: Upload executable for Windows
-      if: matrix.os == 'windows-2019' && env.cl-release == 'true'
+      if: matrix.os == 'windows-latest' && env.cl-release == 'true'
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program-${{ matrix.os }}
         path: ${{ format('{0}.exe', env.cl-exe-basename) }} # ex. main.exe
 
     - name: Upload executable for non-Windows
-      if: matrix.os != 'windows-2019' && env.cl-release == 'true'
+      if: matrix.os != 'windows-latest' && env.cl-release == 'true'
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program-${{ matrix.os }} # ex. main
